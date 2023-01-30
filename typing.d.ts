@@ -53,7 +53,7 @@ interface Categories extends Base{
     title: string;
 }
 
-interface mainImage{
+interface MainImage{
     _type: "image";
     asset: Reference;
 }

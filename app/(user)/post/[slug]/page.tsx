@@ -1,27 +1,49 @@
+// 'use client'
 import React from 'react'
 import { groq } from 'next-sanity'
 import {client} from '../../../../lib/sanity.client'
+import { Post } from '../../../../typing'
 import Image from 'next/image'
 import urlFor from '../../../../lib/urlFor'
 import { PortableText } from '@portabletext/react'
 import { RichTextComponents } from '../../../../components/RichTextComponents'
+// import category from '../../../../schemas/category'
+// import {portableText} from '@portabletext/react'
 type Props = {
+
     params: {
         slug: string;
     };
-};   
+};
 
+export const revalidate = 20
 
-async function Post({ params: { slug } }: Props) {
+export async function generateStaticParams() {
+    const query = groq`
+        *[_type=='post']
+        {
+            slug
+        }
+    `;
+    const slugs: Post[] = await client.fetch(query);
+    const slugRoutes = slugs.map((slug) => slug.slug.current)
+    return slugRoutes.map(slug => ({
+        slug,
+    }))
+}
+
+async function Post({ params:{ slug } }: Props) {
     const query = groq`
     *[_type=='post' && slug.current == $slug][0]
     {
         ...,
         author->,
-        categorires[]->
+        categories[]->
     }
     `;
     const post: Post = await client.fetch(query, { slug });
+    // console.log(post.mainImage)
+    
   return (
       <article className='px-10 pb-28'>
           <section className='space-y-2 border border-[#F7AB0A] text-white'>
@@ -53,7 +75,7 @@ async function Post({ params: { slug } }: Props) {
                       <div>
                           <h2 className='italic pt-10'>{post.description}</h2>
                           <div className='flex items-center justify-end mt-auto space-x-2'>
-                              {post.categories.map((category) =>
+                              {post.categories.map((category) =>  
                                   <p key={category._id} className="bg-gray-800 text-white px-3 py-1 rounded-full text-sm font-semibold mt-4">{ category.title }</p>
                               )}
                           </div>
