@@ -7,6 +7,7 @@ import Image from 'next/image'
 import urlFor from '../../../../lib/urlFor'
 import { PortableText } from '@portabletext/react'
 import { RichTextComponents } from '../../../../components/RichTextComponents'
+
 // import category from '../../../../schemas/category'
 // import {portableText} from '@portabletext/react'
 type Props = {
@@ -31,6 +32,8 @@ export async function generateStaticParams() {
         slug,
     }))
 }
+
+
 
 async function Post({ params:{ slug } }: Props) {
     const query = groq`

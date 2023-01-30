@@ -6,7 +6,7 @@ function Banner() {
           <div>
               <h1 className='text-6xl'>Web3 Blogs</h1>
               <h2 className="mt-5 md:mt-0">
-                  Wlecome to {" "} <span className='underline decoration-4 decoration-[#F7AB0A]'>Every Developers</span>
+                  Wlecome to {" "} <span className='underline decoration-4 decoration-[#F7AB0A]'>Every Developers </span>
 
                   favourite blog in the Devosphere
               </h2>
